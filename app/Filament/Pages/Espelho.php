@@ -31,6 +31,7 @@ class Espelho extends Page
     public $promotoria_id;
     public $is_urgente = false;
     public $isModalOpen = false;
+    public $editingEvento = null;
 
     protected $rules = [
         'titulo' => 'required',
@@ -57,6 +58,17 @@ class Espelho extends Page
     public function closeModal()
     {
         $this->isModalOpen = false;
+        $this->editingEvento = null;
+        $this->reset([
+            'titulo',
+            'tipo',
+            'periodo_inicio',
+            'periodo_fim',
+            'promotor_designado',
+            'promotor_titular',
+            'promotoria_id',
+            'is_urgente'
+        ]);
     }
 
     public function deleteEvento($id)
@@ -111,8 +123,99 @@ class Espelho extends Page
     } 
 }
 
+    public function updateEvento($id)
+    {
+        $eventoController = new EventoController();
+        $response = $eventoController->updateEvento($id, [
+            'titulo' => $this->titulo,
+            'tipo' => $this->tipo,
+            'periodo_inicio' => $this->periodo_inicio,
+            'periodo_fim' => $this->periodo_fim,
+            'promotor_titular' => $this->promotor_titular,
+            'promotor_designado' => $this->promotor_designado,
+            'promotoria_id' => $this->promotoria_id,
+            'is_urgente' => $this->is_urgente,
+        ]);
+
+        if ($response['status'] === 'success') {
+            $this->reset(['titulo', 'tipo', 'periodo_inicio', 'periodo_fim', 'promotor_designado', 'promotor_titular']);
+            Notification::make()
+                ->title($response['message'])
+                ->success()
+                ->send();
+        } else {
+            Notification::make()
+                ->title('Erro ao atualizar evento')
+                ->body($response['message'])
+                ->danger()
+                ->send();
+        } 
+    }
+
     public function updated($field)
     {
         $this->validateOnly($field);
     }
+
+    public function editEvento($eventoId)
+    {
+        $evento = DB::table('eventos')->where('id', $eventoId)->first();
+        
+        $this->editingEvento = $evento;
+        $this->titulo = $evento->titulo;
+        $this->tipo = $evento->tipo;
+        $this->periodo_inicio = $evento->periodo_inicio;
+        $this->periodo_fim = $evento->periodo_fim;
+        $this->promotor_titular = $evento->promotor_titular_id;
+        $this->promotor_designado = $evento->promotor_designado_id;
+        $this->promotoria_id = $evento->promotoria_id;
+        $this->is_urgente = $evento->is_urgente;
+    }
+
+    public function cancelEdit()
+    {
+        $this->editingEvento = null;
+        $this->reset([
+            'titulo',
+            'tipo',
+            'periodo_inicio',
+            'periodo_fim',
+            'promotor_designado',
+            'promotor_titular',
+            'promotoria_id',
+            'is_urgente'
+        ]);
+    }
+
+    public function setEventoParaEditar($eventoId)
+    {
+        $evento = DB::table('eventos')->where('id', $eventoId)->first();
+        
+        $this->editingEvento = $evento;
+        $this->titulo = $evento->titulo;
+        $this->tipo = $evento->tipo;
+        $this->periodo_inicio = $evento->periodo_inicio;
+        $this->periodo_fim = $evento->periodo_fim;
+        $this->promotor_titular = $evento->promotor_titular_id;
+        $this->promotor_designado = $evento->promotor_designado_id;
+        $this->promotoria_id = $evento->promotoria_id;
+        $this->is_urgente = $evento->is_urgente;
+    }
+
+    public function addEvento($promotorId)
+    {
+        $this->reset([
+            'titulo',
+            'tipo',
+            'periodo_inicio',
+            'periodo_fim',
+            'promotor_designado',
+            'is_urgente',
+            'editingEvento'
+        ]);
+        
+        $this->promotor_titular = $promotorId;
+    }
+
+   
 }

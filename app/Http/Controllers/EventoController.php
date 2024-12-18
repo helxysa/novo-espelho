@@ -76,6 +76,57 @@ class EventoController extends Controller
         DB::commit();
     }
 
+    public function updateEvento($id, $data)
+{
+    try {
+        $validatedData = validator($data, [
+            'titulo' => 'required|string',
+            'tipo' => 'required|string',
+            'periodo_inicio' => 'required|date',
+            'periodo_fim' => 'required|date',
+            'promotor_titular' => 'required',
+            'promotor_designado' => 'required',
+            'promotoria_id' => 'required'
+        ])->validate();
+        
+        DB::beginTransaction();
+
+        $evento = [
+            'titulo' => $validatedData['titulo'],
+            'tipo' => $validatedData['tipo'],
+            'periodo_inicio' => $validatedData['periodo_inicio'],
+            'periodo_fim' => $validatedData['periodo_fim'],
+            'promotor_titular_id' => $validatedData['promotor_titular'],
+            'promotor_designado_id' => $validatedData['promotor_designado'],
+            'promotoria_id' => $validatedData['promotoria_id'],
+            'is_urgente' => $data['is_urgente'] ?? false,
+            'updated_at' => now(),
+        ];
+
+        DB::table('eventos')->where('id', $id)->update($evento);
+        
+        Historico::create([
+            'users_id' => auth()->id(),
+            'detalhes' => 'Atualizou o evento: ' . $evento['titulo'],
+            'modificado' => now(),
+        ]);
+
+        DB::commit();
+
+        return [
+            'status' => 'success',
+            'message' => 'Evento atualizado com sucesso'
+        ];
+
+    } catch (\Exception $e) {
+        DB::rollback();
+        
+        return [
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ];
+    }
+}
 
 
     public function salvarPlantaoUrgencia($data)

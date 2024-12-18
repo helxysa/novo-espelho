@@ -8,24 +8,28 @@ class PromotoriaController extends Controller
 {
     public function getPromotorias()
     {
-        return DB::table('grupo_promotorias AS gp')
+        return DB::table('municipios AS m')
             ->select([
                 'm.nome AS municipio',
                 'gp.nome AS grupo_promotoria',
-                'pr.nome AS promotoria',
-                'p.nome AS promotor',
-                'pr.id AS promotoria_id',
-                'p.id AS promotor_id',
-                'e.titulo AS evento',
+                'p.nome AS promotoria',
+                'p.id AS promotoria_id',
+                'pr.nome AS promotor',
+                'pr.id AS promotor_id',
                 'e.id AS evento_id',
+                'e.titulo AS evento',
                 'e.tipo AS tipo_evento',
                 'e.periodo_inicio',
-                'e.periodo_fim'
+                'e.periodo_fim',
+                'e.is_urgente'
             ])
-            ->join('promotorias AS pr', 'gp.id', '=', 'pr.grupo_promotoria_id')
-            ->join('promotores AS p', 'pr.promotor_id', '=', 'p.id')
-            ->join('municipios AS m', 'm.id', '=', 'gp.municipios_id')
-            ->join('eventos AS e', 'pr.id', '=', 'e.promotor_titular_id')
+            ->join('grupo_promotorias AS gp', 'gp.municipios_id', '=', 'm.id')
+            ->join('promotorias AS p', 'p.grupo_promotoria_id', '=', 'gp.id')
+            ->join('promotores AS pr', 'p.promotor_id', '=', 'pr.id')
+            ->leftJoin('eventos AS e', 'e.promotoria_id', '=', 'p.id')
+            ->orderBy('m.nome')
+            ->orderBy('p.nome')
+            ->orderBy('e.periodo_inicio')
             ->get();
     }
 }

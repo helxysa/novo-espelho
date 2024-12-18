@@ -10,10 +10,13 @@ class Historico extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.historico';
     
+    public $search = '';
+    public $filter = '';
+    
     public function getLogs()
     {
         $historicoController = new HistoricoController();
-        return $historicoController->historico();
+        return $historicoController->historico($this->search, $this->filter);
     }
     
     protected function getViewData(): array

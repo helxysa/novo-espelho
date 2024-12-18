@@ -1,7 +1,9 @@
-<x-filament::modal id="add-event-{{ $promotoria->municipio }}" width="md">
+<x-filament::modal id="edit-event-{{ $promotoria->evento_id }}" width="md" x-on:hidden="$wire.cancelEdit()">
     <x-slot name="trigger">
-        <x-filament::button wire:click="setPromotorTitular({{ $promotoria->promotor_id }}, {{ $promotoria->promotoria_id }})">
-            Adicionar Evento
+        <x-filament::button wire:click="setEventoParaEditar({{ $promotoria->evento_id }})">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
         </x-filament::button>
     </x-slot>
 
@@ -52,17 +54,16 @@
             <input type="text" disabled value="{{ $promotoria->promotoria }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
         </div>
 
-        <input type="hidden" wire:model="promotoria_id" value="{{ $promotoria->promotoria_id }}">
+        <input type="hidden" wire:model="evento_id" value="{{ $promotoria->evento_id }}">
     </div>
 
     <x-slot name="footer" class="flex justify-between">
-        <x-filament::button x-on:click="close">
+        <x-filament::button wire:click="cancelEdit" x-on:click="close">
             Cancelar
         </x-filament::button>
 
-        <x-filament::button wire:click="salvarEvento"
-        onclick="setTimeout(() => { location.reload(); }, 10);" >
-            Salvar
+        <x-filament::button wire:click="updateEvento({{ $promotoria->evento_id }})" x-on:click="close">
+            Atualizar
         </x-filament::button>
     </x-slot>
 </x-filament::modal>
