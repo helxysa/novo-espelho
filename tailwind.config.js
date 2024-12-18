@@ -8,6 +8,10 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+        './vendor/filament/**/*.blade.php',
+        './app/Filament/**/*.php',
+        './resources/views/filament/**/*.blade.php',
+        './resources/views/filament/pages/historico.blade.php',
     ],
     theme: {
         extend: {
@@ -16,5 +20,5 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

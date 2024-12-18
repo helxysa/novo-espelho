@@ -49,16 +49,35 @@ class Espelho extends Page
     }
 
     public function setPromotorTitular($promotorId, $promotoriaId)
-    {
-        $this->promotor_id = $promotorId;
-        $this->promotoria_id = $promotoriaId;
-        $this->isModalOpen = true;
-    }
+{
+    $this->promotor_titular = $promotorId;
+    $this->promotoria_id = $promotoriaId;
+}
 
     public function closeModal()
     {
         $this->isModalOpen = false;
     }
+
+    public function deleteEvento($id)
+    {
+        try {
+            $eventoController = new EventoController();
+            $eventoController->deleteEvento($id);
+    
+            Notification::make()
+                ->title('Evento excluído com sucesso')
+                ->success()
+                ->send();
+    
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Erro ao excluir evento')
+                ->danger()
+                ->send();
+        }
+    }
+
 
     public function salvarEvento()
 {
@@ -73,6 +92,9 @@ class Espelho extends Page
         'promotoria_id' => $this->promotoria_id,
         'is_urgente' => $this->is_urgente,
     ]);
+
+    
+    
 
     if ($response['status'] === 'success') {
         $this->reset(['titulo', 'tipo', 'periodo_inicio', 'periodo_fim', 'promotor_designado', 'promotor_titular']);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use App\Models\Historico; 
+
 
 class EventoController extends Controller
 {
@@ -36,6 +38,11 @@ class EventoController extends Controller
             ];
 
             DB::table('eventos')->insert($evento);
+            Historico::create([
+                'users_id' => auth()->id(),
+                'detalhes' => 'Criou um novo evento: ' . $evento['titulo'],
+                'modificado' => now(),
+            ]);
 
             DB::commit();
 
@@ -52,5 +59,27 @@ class EventoController extends Controller
                 'message' => $e->getMessage()
             ];
         }
+    }
+
+
+    public function deleteEvento($id)
+{
+    $evento = DB::table('eventos')->where('id', $id)->first();
+    DB::table('eventos')->where('id', $id)->delete();
+    
+    Historico::create([
+        'users_id' => auth()->id(),
+        'detalhes' => 'Excluiu o evento: ' . $evento->titulo,
+        'modificado' => now(),
+    ]);
+    
+        DB::commit();
+    }
+
+
+
+    public function salvarPlantaoUrgencia($data)
+    {
+        dd($data);
     }
 }

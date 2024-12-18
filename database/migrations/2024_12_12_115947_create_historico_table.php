@@ -28,3 +28,20 @@ return new class extends Migration
         Schema::dropIfExists('historico');
     }
 };
+
+class AddTimestampsToHistoricoTable extends Migration
+{
+    public function up()
+    {
+        Schema::table('historico', function (Blueprint $table) {
+            $table->timestamps(); 
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('historico', function (Blueprint $table) {
+            $table->dropTimestamps(); 
+        });
+    }
+}

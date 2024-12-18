@@ -41,9 +41,7 @@
             <label class="block text-sm font-medium text-gray-700">Promotor Designado:</label>
             <select wire:model="promotor_designado" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                 <option value="">Selecione um promotor</option>
-                @foreach ($promotorias as $item)
-                    <option value="{{ $item->promotor_id }}">{{ $item->promotor }}</option>
-                @endforeach
+                <option value="{{ $promotoria->promotor_id }}">{{ $promotoria->promotor }}</option>
             </select>
         </div>
 
@@ -60,7 +58,8 @@
             Cancelar
         </x-filament::button>
 
-        <x-filament::button wire:click="salvarEvento">
+        <x-filament::button wire:click="salvarEvento"
+        onclick="setTimeout(() => { location.reload(); }, 10);" >
             Salvar
         </x-filament::button>
     </x-slot>
