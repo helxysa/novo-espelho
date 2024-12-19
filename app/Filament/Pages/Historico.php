@@ -8,6 +8,7 @@ use App\Http\Controllers\HistoricoController;
 class Historico extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationGroup = 'Painel de Controle';
     protected static string $view = 'filament.pages.historico';
     
     public $search = '';

@@ -19,6 +19,8 @@ use App\Http\Controllers\EventoController;
 class Espelho extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationGroup = 'Painel de Controle';
+
     protected static string $view = 'filament.pages.espelho';
 
     public $promotorias;

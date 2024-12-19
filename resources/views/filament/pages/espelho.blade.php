@@ -17,7 +17,7 @@
                                 Promotoria
                             </th>
                             <th scope="col" class="px-6 py-5 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
-                                Promotor
+                                Membro
                             </th>
                             <th scope="col" class="px-6 py-5 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Eventos
