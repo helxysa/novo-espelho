@@ -14,6 +14,7 @@ return new class extends Migration {
         $table->id();
         $table->string('titulo')->nullable();
         $table->string('tipo');
+        $table->foreignId('periodo_id')->constrained('periodos');
         $table->date('periodo_inicio');
         $table->date('periodo_fim');
         $table->foreignId('promotoria_id')->constrained()->after('id');

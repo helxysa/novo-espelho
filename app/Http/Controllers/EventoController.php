@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Historico; 
-
+use App\Models\Periodo;
 
 class EventoController extends Controller
 {
@@ -15,6 +15,7 @@ class EventoController extends Controller
             $validatedData = validator($data, [
                 'titulo' => 'required|string',
                 'tipo' => 'required|string',
+                'periodo_id' => 'required|exists:periodos,id',
                 'periodo_inicio' => 'required|date',
                 'periodo_fim' => 'required|date',
                 'promotor_titular' => 'required',
@@ -27,6 +28,7 @@ class EventoController extends Controller
             $evento = [
                 'titulo' => $validatedData['titulo'],
                 'tipo' => $validatedData['tipo'],
+                'periodo_id' => $validatedData['periodo_id'],
                 'periodo_inicio' => $validatedData['periodo_inicio'],
                 'periodo_fim' => $validatedData['periodo_fim'],
                 'promotor_titular_id' => $validatedData['promotor_titular'],
@@ -128,9 +130,10 @@ class EventoController extends Controller
     }
 }
 
-
-    public function salvarPlantaoUrgencia($data)
+    public function index()
     {
-        dd($data);
+        $periodos = Periodo::all();
+
+        return view('filament.pages.espelho', compact('periodos'));
     }
 }

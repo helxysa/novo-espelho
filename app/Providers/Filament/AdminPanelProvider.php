@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 // Pages\Dashboard::class,
             ])
+            ->maxContentWidth('screen')  //isso muda o tamanho da tela
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 // Widgets\TestWidget::class,

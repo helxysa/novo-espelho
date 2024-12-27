@@ -7,9 +7,10 @@ use App\Http\Controllers\HistoricoController;
 
 class Historico extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'Painel de Controle';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box-arrow-down';
+    protected static ?string $navigationGroup = 'Outras Informações';
     protected static string $view = 'filament.pages.historico';
+    protected static ?string $title = 'Histórico';
     
     public $search = '';
     public $filter = '';

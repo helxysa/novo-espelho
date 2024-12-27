@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id(); 
             $table->date('periodo_inicio');
             $table->date('periodo_fim');
-            $table->unsignedBigInteger('promotor_id'); 
             $table->timestamps();
-
-            $table->foreign('promotor_id')->references('id')->on('promotores')->onDelete('cascade');
         });
     }
 

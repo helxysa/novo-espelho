@@ -3,21 +3,30 @@
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
-use App\Filament\Widgets\TestWidget;
+use App\Filament\Widgets\Plantoes;
 use App\Filament\Widgets\EventosPromotor;
 use App\Filament\Widgets\PromotoresLicenca;
 class Dashboard extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
     protected static ?string $navigationGroup = 'Painel de Controle';
     protected static string $view = 'filament.pages.dashboard';
 
+    protected static ?string $title = 'Dashboard';
     protected function getHeaderWidgets(): array
     {
         return [
-            TestWidget::class,
+            Plantoes::class,
             EventosPromotor::class,
-            PromotoresLicenca::class,
+          
         ];
+
+
+    }
+
+    
+    public function getHeading(): string
+    {
+        return '';
     }
 }

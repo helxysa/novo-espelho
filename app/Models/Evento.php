@@ -43,4 +43,12 @@ class Evento extends Model
     {
         return $this->belongsTo(Promotor::class, 'promotor_designado_id');
     }
+
+    /**
+     * Relacionamento com o período.
+     */
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class);
+    }
 }

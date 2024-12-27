@@ -9,8 +9,8 @@ class Periodo extends Model
 {
     use HasFactory;
 
-    public function promotor()
-    {
-        return $this->belongsTo(Promotor::class);
-    }
+    protected $fillable = [
+        'periodo_inicio',
+        'periodo_fim',
+    ];
 }
